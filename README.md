@@ -334,6 +334,6 @@ RPC_URLS=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY,https://ethereum-rpc.publ
 
 **MIT** — see [`LICENSE`](LICENSE) for details.
 
-Made with 🌊 for Web3
+Made with 🌊 for Multipli
 
 </div>
