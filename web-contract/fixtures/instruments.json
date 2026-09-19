@@ -1,0 +1,21 @@
+{
+  "asOf": "2026-09-19T15:31:33.694Z",
+  "mode": "offline",
+  "source": "db",
+  "instruments": [
+    {
+      "symbol": "ETH-USD",
+      "base": "ETH",
+      "quote": "USD",
+      "name": "Ethereum",
+      "sortOrder": 1
+    },
+    {
+      "symbol": "BTC-USD",
+      "base": "BTC",
+      "quote": "USD",
+      "name": "Bitcoin",
+      "sortOrder": 2
+    }
+  ]
+}

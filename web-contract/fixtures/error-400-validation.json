@@ -1,0 +1,19 @@
+{
+  "error": {
+    "code": "validation_error",
+    "message": "Request validation failed",
+    "details": [
+      {
+        "keyword": "invalid_format",
+        "instancePath": "/symbol",
+        "schemaPath": "#/symbol/invalid_format",
+        "message": "expected e.g. ETH-USD",
+        "params": {
+          "origin": "string",
+          "format": "regex",
+          "pattern": "/^[A-Z0-9]+-[A-Z]+$/"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "asOf": "2026-09-19T15:34:19.216Z",
+  "mode": "offline",
+  "source": "cascade-engine",
+  "synthetic": false,
+  "drillActive": false,
+  "state": {
+    "state": "watching",
+    "drop": -0.004204335486162614,
+    "z": -0.08553365566465221,
+    "liq1h": 326501.260276,
+    "mean": 566008.5626935953,
+    "thresholds": {
+      "dropThresh": 0.04,
+      "zThresh": 3,
+      "minLiqUsd": 1000000
+    },
+    "met": {
+      "drop": false,
+      "z": false,
+      "liq": false
+    },
+    "reason": "drop -0.42% (need <= -4.00%) ✗ · z -0.09 (need >= 3) ✗ · liq 1h $326,501 (need >= $1.00M) ✗",
+    "symbol": "ETH-USD",
+    "price": 2915.62,
+    "priceSource": "fast",
+    "equity": 10000,
+    "position": null,
+    "pausedUntil": null,
+    "ts": "2026-09-19T15:34:14.469Z"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "asOf": "2026-09-19T15:31:33.673Z",
+  "providers": [
+    {
+      "name": "simulator",
+      "status": "ok",
+      "circuit": "closed",
+      "lastSuccess": "2026-09-19T15:31:29.004Z",
+      "lastError": null,
+      "lastErrorMessage": null,
+      "p95LatencyMs": 0,
+      "successCount": 20,
+      "errorCount": 0,
+      "quotaRemaining": null,
+      "reportedAt": "2026-09-19T15:31:29.128Z"
+    }
+  ],
+  "chains": {
+    "realtimePrice": {
+      "status": "ok",
+      "providers": [
+        "simulator",
+        "coinbase-ws",
+        "pyth",
+        "coinbase-rest",
+        "coingecko"
+      ]
+    },
+    "oraclePrice": {
+      "status": "unknown",
+      "providers": [
+        "chainlink-rpc"
+      ]
+    },
+    "candles": {
+      "status": "unknown",
+      "providers": [
+        "coinbase-rest",
+        "coinbase-advanced",
+        "cryptocompare",
+        "coingecko"
+      ]
+    },
+    "markets": {
+      "status": "unknown",
+      "providers": [
+        "coingecko",
+        "coinmarketcap"
+      ]
+    },
+    "rpc": {
+      "status": "unknown",
+      "providers": [
+        "rpc"
+      ]
+    },
+    "explorer": {
+      "status": "unknown",
+      "providers": [
+        "etherscan",
+        "blockscout"
+      ]
+    }
+  },
+  "suspectTicks": {
+    "total": 0,
+    "recent": []
+  },
+  "indexer": null
+}

@@ -1,0 +1,28 @@
+{
+  "asOf": "2026-09-19T15:31:33.762Z",
+  "mode": "offline",
+  "source": "simulator",
+  "quote": {
+    "symbol": "BTC-USD",
+    "price": "138077.31",
+    "change24h": "-5945.9",
+    "changePct24h": "-4.1284",
+    "open24h": "144023.21",
+    "high24h": "144947.14",
+    "low24h": "133750.82",
+    "previousClose": "141478.5",
+    "volume24h": "18627.2807",
+    "marketCap": null,
+    "rank": null,
+    "high52w": "145375.81",
+    "low52w": "68585.51",
+    "allTimeHigh": "145375.81",
+    "circulatingSupply": null,
+    "maxSupply": null,
+    "updatedAt": "2026-09-19T15:31:33.028Z",
+    "sources": [
+      "simulator",
+      "sim"
+    ]
+  }
+}

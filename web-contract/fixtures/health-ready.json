@@ -1,0 +1,60 @@
+{
+  "status": "ready",
+  "checks": {
+    "db": "ok",
+    "redis": "ok",
+    "chain:realtimePrice": "ok",
+    "chain:oraclePrice": "unknown",
+    "chain:candles": "unknown",
+    "chain:markets": "unknown",
+    "chain:rpc": "unknown",
+    "chain:explorer": "unknown"
+  },
+  "chains": {
+    "realtimePrice": {
+      "status": "ok",
+      "providers": [
+        "simulator",
+        "coinbase-ws",
+        "pyth",
+        "coinbase-rest",
+        "coingecko"
+      ]
+    },
+    "oraclePrice": {
+      "status": "unknown",
+      "providers": [
+        "chainlink-rpc"
+      ]
+    },
+    "candles": {
+      "status": "unknown",
+      "providers": [
+        "coinbase-rest",
+        "coinbase-advanced",
+        "cryptocompare",
+        "coingecko"
+      ]
+    },
+    "markets": {
+      "status": "unknown",
+      "providers": [
+        "coingecko",
+        "coinmarketcap"
+      ]
+    },
+    "rpc": {
+      "status": "unknown",
+      "providers": [
+        "rpc"
+      ]
+    },
+    "explorer": {
+      "status": "unknown",
+      "providers": [
+        "etherscan",
+        "blockscout"
+      ]
+    }
+  }
+}

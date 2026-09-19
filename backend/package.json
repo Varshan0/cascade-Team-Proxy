@@ -1,0 +1,63 @@
+{
+  "name": "multipli-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,worker -c cyan,magenta \"tsx watch src/api/index.ts\" \"tsx watch src/worker/index.ts\"",
+    "start:api": "tsx src/api/index.ts",
+    "start:worker": "tsx src/worker/index.ts",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint src test",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/shared/db/migrate.ts",
+    "db:seed": "tsx src/shared/db/seed.ts",
+    "demo": "node scripts/build-web.mjs && tsx src/demo/main.ts",
+    "demo:offline": "cross-env DEMO_OFFLINE=true npm run demo",
+    "db:seed:demo": "tsx src/shared/db/seed.ts --pglite",
+    "web:build": "npm --prefix .. run build",
+    "web:dev": "npm --prefix .. run dev"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@fastify/cors": "^11.3.0",
+    "@fastify/rate-limit": "^11.2.0",
+    "@fastify/static": "^10.1.4",
+    "@fastify/swagger": "^9.8.1",
+    "@fastify/swagger-ui": "^6.1.1",
+    "@fastify/websocket": "^11.3.1",
+    "bullmq": "^6.3.8",
+    "decimal.js": "^10.6.0",
+    "dotenv": "^18.0.1",
+    "drizzle-orm": "^0.45.2",
+    "fastify": "^5.12.5",
+    "fastify-type-provider-zod": "^7.0.0",
+    "ioredis": "^5.11.1",
+    "ioredis-mock": "^8.13.1",
+    "pino": "^10.3.1",
+    "pino-pretty": "^13.1.3",
+    "postgres": "^3.4.9",
+    "tsx": "^4.23.13",
+    "viem": "^2.56.8",
+    "ws": "^8.21.3",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/ioredis-mock": "^8.2.8",
+    "@types/node": "^26.6.2",
+    "@types/ws": "^8.18.1",
+    "concurrently": "^10.0.5",
+    "cross-env": "^10.1.0",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "^10.11.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.70.0",
+    "vitest": "^5.0.1"
+  }
+}

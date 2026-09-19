@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "conflict",
+    "message": "A drill is already running"
+  }
+}

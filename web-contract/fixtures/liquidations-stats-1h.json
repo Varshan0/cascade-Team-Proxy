@@ -1,0 +1,28 @@
+{
+  "asOf": "2026-09-19T15:31:33.910Z",
+  "mode": "offline",
+  "source": "aave-v3-mainnet",
+  "window": "1h",
+  "totalUsd": "326501.260276",
+  "count": 4,
+  "topAssets": [
+    {
+      "asset": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "symbol": "WETH",
+      "usd": "326501.260276",
+      "count": 4
+    }
+  ],
+  "hourly": [
+    {
+      "hour": "2026-09-19T14:00:00.000Z",
+      "usd": "206301.907083",
+      "count": 2
+    },
+    {
+      "hour": "2026-09-19T15:00:00.000Z",
+      "usd": "120199.353193",
+      "count": 2
+    }
+  ]
+}

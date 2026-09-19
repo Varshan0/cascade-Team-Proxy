@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+*.log
+*.tsbuildinfo
+.integration-src/
+backend/node_modules/
+backend/.env
+backend/data/
+backend/.scratch/

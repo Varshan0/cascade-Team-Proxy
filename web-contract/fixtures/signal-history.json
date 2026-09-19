@@ -1,0 +1,42 @@
+{
+  "asOf": "2026-09-19T15:31:34.001Z",
+  "mode": "offline",
+  "source": "cascade-engine",
+  "items": [
+    {
+      "id": 1,
+      "ts": "2026-09-19T14:34:58.894Z",
+      "state": "watching",
+      "mode": "offline",
+      "payload": {
+        "events": [],
+        "signal": {
+          "z": -0.08535275206650539,
+          "ts": "2026-09-19T14:34:58.894Z",
+          "met": {
+            "z": false,
+            "liq": false,
+            "drop": false
+          },
+          "drop": -0.003812136034673008,
+          "mean": 566008.5626935953,
+          "liq1h": 326501.260276,
+          "price": 2916.76833254,
+          "state": "watching",
+          "equity": 10000,
+          "reason": "drop -0.38% (need <= -4.00%) ✗ · z -0.09 (need >= 3) ✗ · liq 1h $326,501 (need >= $1.00M) ✗",
+          "symbol": "ETH-USD",
+          "position": null,
+          "thresholds": {
+            "zThresh": 3,
+            "minLiqUsd": 1000000,
+            "dropThresh": 0.04
+          },
+          "pausedUntil": null,
+          "priceSource": "chainlink"
+        }
+      }
+    }
+  ],
+  "nextCursor": null
+}

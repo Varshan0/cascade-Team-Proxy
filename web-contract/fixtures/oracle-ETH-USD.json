@@ -1,0 +1,17 @@
+{
+  "asOf": "2026-09-19T15:31:33.968Z",
+  "mode": "offline",
+  "source": "chainlink",
+  "oracle": {
+    "symbol": "ETH-USD",
+    "chainlinkPrice": "2916.76833254",
+    "fastPrice": "2917.76",
+    "gap": "0.00034",
+    "pressure": false,
+    "roundId": "18446744073709553062",
+    "updatedAt": "2026-09-19T14:35:30.000Z",
+    "ageSec": 3363,
+    "heartbeatSec": 3600,
+    "deviation": 0.005
+  }
+}

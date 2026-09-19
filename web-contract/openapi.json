@@ -1,0 +1,1565 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Trading terminal API",
+    "version": "0.1.0"
+  },
+  "components": {
+    "schemas": {}
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness",
+        "tags": [
+          "ops"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "summary": "Readiness: DB, Redis, and no failover chain fully down",
+        "tags": [
+          "ops"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ready"
+                      ]
+                    },
+                    "checks": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "chains": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "ok",
+                              "degraded",
+                              "down",
+                              "unknown"
+                            ]
+                          },
+                          "providers": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "providers"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "checks",
+                    "chains"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "not_ready"
+                      ]
+                    },
+                    "checks": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "chains": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "ok",
+                              "degraded",
+                              "down",
+                              "unknown"
+                            ]
+                          },
+                          "providers": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "providers"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "checks",
+                    "chains"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/providers": {
+      "get": {
+        "summary": "Per-provider status table (drives the frontend \"data sources\" indicator)",
+        "tags": [
+          "ops"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "providers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "ok",
+                              "degraded",
+                              "down",
+                              "unknown"
+                            ]
+                          },
+                          "circuit": {
+                            "type": "string",
+                            "enum": [
+                              "closed",
+                              "open",
+                              "half-open"
+                            ]
+                          },
+                          "lastSuccess": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "lastError": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "lastErrorMessage": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "p95LatencyMs": {
+                            "nullable": true,
+                            "type": "number"
+                          },
+                          "successCount": {
+                            "type": "number"
+                          },
+                          "errorCount": {
+                            "type": "number"
+                          },
+                          "quotaRemaining": {
+                            "nullable": true,
+                            "type": "number"
+                          },
+                          "reportedAt": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "status",
+                          "circuit",
+                          "lastSuccess",
+                          "lastError",
+                          "lastErrorMessage",
+                          "p95LatencyMs",
+                          "successCount",
+                          "errorCount",
+                          "quotaRemaining"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "chains": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "ok",
+                              "degraded",
+                              "down",
+                              "unknown"
+                            ]
+                          },
+                          "providers": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "providers"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "suspectTicks": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number"
+                        },
+                        "recent": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "additionalProperties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "recent"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "indexer": {
+                      "nullable": true,
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "providers",
+                    "chains",
+                    "suspectTicks",
+                    "indexer"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/instruments": {
+      "get": {
+        "summary": "Tradable instruments",
+        "tags": [
+          "market"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "instruments": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "symbol": {
+                            "type": "string"
+                          },
+                          "base": {
+                            "type": "string"
+                          },
+                          "quote": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "sortOrder": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "symbol",
+                          "base",
+                          "quote",
+                          "name",
+                          "sortOrder"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "instruments"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/instruments/{symbol}/quote": {
+      "get": {
+        "summary": "Live quote with 24h stats, 52-week range, all-time high and market data",
+        "tags": [
+          "market"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]+-[A-Z]+$"
+            },
+            "in": "path",
+            "name": "symbol",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "quote": {
+                      "type": "object",
+                      "properties": {
+                        "symbol": {
+                          "type": "string"
+                        },
+                        "price": {
+                          "type": "string"
+                        },
+                        "change24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "changePct24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "open24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "high24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "low24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "previousClose": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "volume24h": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "marketCap": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "rank": {
+                          "nullable": true,
+                          "type": "number"
+                        },
+                        "high52w": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "low52w": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "allTimeHigh": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "circulatingSupply": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "maxSupply": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "sources": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "symbol",
+                        "price",
+                        "change24h",
+                        "changePct24h",
+                        "open24h",
+                        "high24h",
+                        "low24h",
+                        "previousClose",
+                        "volume24h",
+                        "marketCap",
+                        "rank",
+                        "high52w",
+                        "low52w",
+                        "allTimeHigh",
+                        "circulatingSupply",
+                        "maxSupply",
+                        "updatedAt",
+                        "sources"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "quote"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/instruments/{symbol}/candles": {
+      "get": {
+        "summary": "OHLCV candles. Use `range` (chart tabs) or `from`/`to`; interval is chosen for you if omitted.",
+        "tags": [
+          "market"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1m",
+                "5m",
+                "15m",
+                "1h",
+                "4h",
+                "1d"
+              ]
+            },
+            "in": "query",
+            "name": "interval",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1D",
+                "1W",
+                "1M",
+                "3M",
+                "1Y",
+                "5Y",
+                "All"
+              ]
+            },
+            "in": "query",
+            "name": "range",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            "in": "query",
+            "name": "from",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            "in": "query",
+            "name": "to",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": 500,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2000
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]+-[A-Z]+$"
+            },
+            "in": "path",
+            "name": "symbol",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "symbol": {
+                      "type": "string"
+                    },
+                    "interval": {
+                      "type": "string"
+                    },
+                    "candles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "t": {
+                            "type": "string"
+                          },
+                          "o": {
+                            "type": "string"
+                          },
+                          "h": {
+                            "type": "string"
+                          },
+                          "l": {
+                            "type": "string"
+                          },
+                          "c": {
+                            "type": "string"
+                          },
+                          "v": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "t",
+                          "o",
+                          "h",
+                          "l",
+                          "c",
+                          "v",
+                          "source"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "symbol",
+                    "interval",
+                    "candles"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/liquidations": {
+      "get": {
+        "summary": "Aave V3 liquidations, newest first, cursor-paginated",
+        "tags": [
+          "liquidations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            "in": "query",
+            "name": "from",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+            },
+            "in": "query",
+            "name": "to",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$"
+            },
+            "in": "query",
+            "name": "asset",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?$"
+            },
+            "in": "query",
+            "name": "minUsd",
+            "required": false
+          },
+          {
+            "schema": {
+              "default": 50,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "txHash": {
+                            "type": "string"
+                          },
+                          "logIndex": {
+                            "type": "number"
+                          },
+                          "blockNumber": {
+                            "type": "number"
+                          },
+                          "ts": {
+                            "type": "string"
+                          },
+                          "collateralAsset": {
+                            "type": "string"
+                          },
+                          "collateralSymbol": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "debtAsset": {
+                            "type": "string"
+                          },
+                          "debtSymbol": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "string"
+                          },
+                          "liquidator": {
+                            "type": "string"
+                          },
+                          "debtAmountRaw": {
+                            "type": "string"
+                          },
+                          "collateralAmountRaw": {
+                            "type": "string"
+                          },
+                          "usdValue": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "txUrl": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "txHash",
+                          "logIndex",
+                          "blockNumber",
+                          "ts",
+                          "collateralAsset",
+                          "collateralSymbol",
+                          "debtAsset",
+                          "debtSymbol",
+                          "user",
+                          "liquidator",
+                          "debtAmountRaw",
+                          "collateralAmountRaw",
+                          "usdValue",
+                          "status",
+                          "txUrl"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "nextCursor": {
+                      "nullable": true,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "items",
+                    "nextCursor"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/liquidations/stats": {
+      "get": {
+        "summary": "Totals, counts, top collateral assets and an hourly series",
+        "tags": [
+          "liquidations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": "24h",
+              "type": "string",
+              "enum": [
+                "1h",
+                "24h",
+                "7d"
+              ]
+            },
+            "in": "query",
+            "name": "window",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "window": {
+                      "type": "string"
+                    },
+                    "totalUsd": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "topAssets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "asset": {
+                            "type": "string"
+                          },
+                          "symbol": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "usd": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "asset",
+                          "symbol",
+                          "usd",
+                          "count"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "hourly": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "hour": {
+                            "type": "string"
+                          },
+                          "usd": {
+                            "type": "string"
+                          },
+                          "count": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "hour",
+                          "usd",
+                          "count"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "window",
+                    "totalUsd",
+                    "count",
+                    "topAssets",
+                    "hourly"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/oracle/{symbol}": {
+      "get": {
+        "summary": "Chainlink price (what Aave liquidates on) vs the fast market price, and the gap between them",
+        "tags": [
+          "liquidations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]+-[A-Z]+$"
+            },
+            "in": "path",
+            "name": "symbol",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "oracle": {
+                      "type": "object",
+                      "properties": {
+                        "symbol": {
+                          "type": "string"
+                        },
+                        "chainlinkPrice": {
+                          "type": "string"
+                        },
+                        "fastPrice": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "gap": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "pressure": {
+                          "type": "boolean"
+                        },
+                        "roundId": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        },
+                        "ageSec": {
+                          "type": "number"
+                        },
+                        "heartbeatSec": {
+                          "type": "number"
+                        },
+                        "deviation": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "symbol",
+                        "chainlinkPrice",
+                        "fastPrice",
+                        "gap",
+                        "pressure",
+                        "roundId",
+                        "updatedAt",
+                        "ageSec",
+                        "heartbeatSec",
+                        "deviation"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "oracle"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/signals/state": {
+      "get": {
+        "summary": "Current Cascade Catcher state, meters and reason (the drill's synthetic state while a drill runs)",
+        "tags": [
+          "signals"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "drillActive": {
+                      "type": "boolean"
+                    },
+                    "state": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "synthetic",
+                    "drillActive",
+                    "state"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/signals/history": {
+      "get": {
+        "summary": "State transitions (live engine only; drills are never recorded)",
+        "tags": [
+          "signals"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "default": 50,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "ts": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "mode": {
+                            "type": "string"
+                          },
+                          "payload": {}
+                        },
+                        "required": [
+                          "id",
+                          "ts",
+                          "state",
+                          "mode",
+                          "payload"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "nextCursor": {
+                      "nullable": true,
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "items",
+                    "nextCursor"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/signals/bot": {
+      "get": {
+        "summary": "The strategy bot's own paper account: balances, open position and trade history (never a user's account)",
+        "tags": [
+          "signals"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "asOf": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "account": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "balances": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "engine": {
+                      "type": "object",
+                      "properties": {
+                        "equity": {
+                          "type": "number"
+                        },
+                        "position": {
+                          "nullable": true,
+                          "type": "object",
+                          "additionalProperties": {}
+                        },
+                        "pausedUntil": {
+                          "nullable": true,
+                          "type": "number"
+                        },
+                        "lastExitT": {
+                          "nullable": true,
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "equity",
+                        "position",
+                        "pausedUntil",
+                        "lastExitT"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "trades": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "txId": {
+                            "type": "string"
+                          },
+                          "ts": {
+                            "type": "string"
+                          },
+                          "side": {
+                            "type": "string",
+                            "enum": [
+                              "buy",
+                              "sell"
+                            ]
+                          },
+                          "asset": {
+                            "type": "string"
+                          },
+                          "qty": {
+                            "type": "string"
+                          },
+                          "price": {
+                            "type": "string"
+                          },
+                          "fee": {
+                            "type": "string"
+                          },
+                          "ref": {
+                            "nullable": true,
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "txId",
+                          "ts",
+                          "side",
+                          "asset",
+                          "qty",
+                          "price",
+                          "fee",
+                          "ref"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "asOf",
+                    "mode",
+                    "source",
+                    "account",
+                    "balances",
+                    "engine",
+                    "trades"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/demo/status": {
+      "get": {
+        "summary": "Which data mode is active",
+        "tags": [
+          "demo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "live",
+                        "replay",
+                        "drill",
+                        "offline"
+                      ]
+                    },
+                    "offline": {
+                      "type": "boolean"
+                    },
+                    "drillActive": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "mode",
+                    "offline",
+                    "drillActive"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/demo/drill": {
+      "post": {
+        "summary": "Inject a synthetic 6.5% crash + ~$40M liquidation burst + rebound into an isolated copy of state",
+        "tags": [
+          "demo"
+        ],
+        "description": "Every message is tagged `synthetic: true` and `mode: \"drill\"`. Real data, accounts and ledgers are never touched. Returns immediately; poll GET /demo/drill.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "default": {
+                  "speed": 1
+                },
+                "type": "object",
+                "properties": {
+                  "speed": {
+                    "default": 1,
+                    "type": "number",
+                    "minimum": 0.5,
+                    "maximum": 1000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "started"
+                      ]
+                    },
+                    "speed": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "speed"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Status and result of the latest drill",
+        "tags": [
+          "demo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "asOf": "2026-09-19T15:31:33.734Z",
+  "mode": "offline",
+  "source": "simulator",
+  "quote": {
+    "symbol": "ETH-USD",
+    "price": "2917.76",
+    "change24h": "114.2",
+    "changePct24h": "4.0734",
+    "open24h": "2803.56",
+    "high24h": "2928.51",
+    "low24h": "2724.96",
+    "previousClose": "2814.84",
+    "volume24h": "18647.3913",
+    "marketCap": null,
+    "rank": null,
+    "high52w": "3640.72",
+    "low52w": "2211.71",
+    "allTimeHigh": "3640.72",
+    "circulatingSupply": null,
+    "maxSupply": null,
+    "updatedAt": "2026-09-19T15:31:33.028Z",
+    "sources": [
+      "simulator",
+      "sim"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "cascade-catcher-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b --pretty false && npm --prefix backend run typecheck",
+    "lint": "tsc -b --pretty false && npm --prefix backend run lint",
+    "test": "npm --prefix backend test",
+    "demo": "npm --prefix backend run demo",
+    "demo:offline": "npm --prefix backend run demo:offline",
+    "backend:dev": "npm --prefix backend run dev",
+    "backend:test": "npm --prefix backend test"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}

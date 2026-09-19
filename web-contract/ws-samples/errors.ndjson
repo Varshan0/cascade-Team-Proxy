@@ -1,0 +1,4 @@
+{"t":17,"msg":{"type":"error","error":{"code":"unknown_channel","message":"unknown channel nope"}}}
+{"t":17,"msg":{"type":"error","error":{"code":"not_available","message":"orderbook:ETH-USD is not available yet"}}}
+{"t":17,"msg":{"type":"error","error":{"code":"unauthorized","message":"me:orders requires authentication (arrives with M5)"}}}
+{"t":17,"msg":{"type":"error","error":{"code":"bad_message","message":"expected {\"op\":\"subscribe\"|\"unsubscribe\",\"channels\":[...]}"}}}

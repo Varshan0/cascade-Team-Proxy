@@ -1,0 +1,20 @@
+{
+  "asOf": "2026-09-19T15:31:34.030Z",
+  "mode": "offline",
+  "source": "cascade-engine",
+  "account": {
+    "id": "1e850e0f-f459-4b0e-8d8f-9bf067ff1d6d",
+    "name": "cascade-bot",
+    "kind": "bot"
+  },
+  "balances": {
+    "USD": "10000"
+  },
+  "engine": {
+    "equity": 10000,
+    "position": null,
+    "pausedUntil": null,
+    "lastExitT": null
+  },
+  "trades": []
+}

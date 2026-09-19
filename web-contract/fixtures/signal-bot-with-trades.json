@@ -1,0 +1,42 @@
+{
+  "asOf": "2026-09-19T15:46:51.544Z",
+  "mode": "live",
+  "source": "cascade-engine",
+  "account": {
+    "id": "3b9b2ef5-5485-4f7d-a9c8-a6cda3602e14",
+    "name": "cascade-bot",
+    "kind": "bot"
+  },
+  "balances": {
+    "ETH": "0",
+    "USD": "10076.632399142514"
+  },
+  "engine": {
+    "equity": 10076.632399142514,
+    "position": null,
+    "pausedUntil": null,
+    "lastExitT": 1789833090000
+  },
+  "trades": [
+    {
+      "txId": "d5a45a8b-38a4-4aa5-8bf2-529ebba83a81",
+      "ts": "2026-09-19T15:46:51.467Z",
+      "side": "buy",
+      "asset": "ETH",
+      "qty": "1.751758327421",
+      "price": "1902.85",
+      "fee": "3.333333333333",
+      "ref": "entry:1789832790000"
+    },
+    {
+      "txId": "8429c393-55b7-4171-bee3-80d233a226ea",
+      "ts": "2026-09-19T15:46:51.534Z",
+      "side": "sell",
+      "asset": "ETH",
+      "qty": "1.751758327421",
+      "price": "1950.449288",
+      "fee": "3.416715781591",
+      "ref": "exit:1789833090000"
+    }
+  ]
+}
