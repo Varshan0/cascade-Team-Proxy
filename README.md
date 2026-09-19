@@ -338,4 +338,3 @@ RPC_URLS=https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY,https://ethereum-rpc.publ
 Made with 🌊 for Multipli
 
 </div>
->>>>>>> e64dcb5163081a95c3416a2860932d2179e2a7f8
